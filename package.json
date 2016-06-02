@@ -19,10 +19,12 @@
   "devDependencies": {
     "coveralls": "^2.11.2",
     "docco": "*",
-    "eslint": "0.21.x",
+    "eslint": "1.10.x",
+    "gzip-size-cli": "^1.0.0",
     "karma": "^0.13.13",
     "karma-qunit": "~0.1.4",
     "nyc": "^2.1.3",
+    "pretty-bytes-cli": "^1.0.0",
     "qunit-cli": "~0.2.0",
     "qunitjs": "^1.18.0",
     "uglify-js": "2.4.x"
@@ -31,11 +33,13 @@
     "test": "npm run test-node && npm run lint",
     "coverage": "nyc npm run test-node && nyc report",
     "coveralls": "nyc npm run test-node && nyc report --reporter=text-lcov | coveralls",
-    "lint": "eslint --reset underscore.js test/*.js",
+    "lint": "eslint underscore.js test/*.js",
     "test-node": "qunit-cli test/*.js",
-    "test-browser": "npm i karma-phantomjs-launcher && ./node_modules/karma/bin/karma start",
-    "build": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m --source-map underscore-min.map --source-map-url \" \" -o underscore-min.js",
-    "doc": "docco underscore.js"
+    "test-browser": "npm i karma-phantomjs-launcher && karma start",
+    "minify":  "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
+    "build": "npm run minify -- --source-map underscore-min.map --source-map-url \" \" -o underscore-min.js",
+    "doc": "docco underscore.js",
+    "weight": "npm run minify | gzip-size | pretty-bytes"
   },
   "license": "MIT",
   "files": [
